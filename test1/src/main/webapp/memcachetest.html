@@ -1,0 +1,20 @@
+<html>
+	<head>
+	</head>
+	<body>
+		<p>Submit for the first time and the
+		key and value will be stored if it does not exist
+		already.
+		
+		After the next submit the key will be loaded into memcache.
+		
+		After this the key and value will be loaded from memcache.
+		</p>
+		
+		<form action="/memcache" method="post">
+			<input type="text" name="key">
+			<input type="text" name="value">
+			<input type="submit">
+		</form>
+	</body>
+</html>
