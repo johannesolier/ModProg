@@ -10,6 +10,7 @@ import com.google.api.services.mapsengine.MapsEngineRequestInitializer;
 import com.google.api.services.mapsengine.model.Feature;
 import com.google.api.services.mapsengine.model.FeaturesListResponse;
 import com.google.api.services.mapsengine.model.GeoJsonPoint;
+import com.google.api.client.json.GsonFactory;
 
 public class Maps {
 
