@@ -9,15 +9,15 @@
 	src="http://maps.google.com/maps/api/js?sensor=false"></script>
 <script type="text/javascript">
 	var map;
-	var initialLocation = new google.maps.LatLng(-44.6895642, 169.1320571);
+	var initialLocation = new google.maps.LatLng(34.415454, -119.845180);
 	function init() {
-		var duckOptions = {
+		var mapOptions = {
 			zoom : 12,
 			center : initialLocation,
 			mapTypeId : google.maps.MapTypeId.HYBRID
 		};
 		map = new google.maps.Map(document.getElementById("map_canvas"),
-				duckOptions);
+				mapOptions);
 		var marker = new google.maps.Marker({
 			position : initialLocation,
 			map : map
