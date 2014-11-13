@@ -4,12 +4,12 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
 
 	<servlet>
-		<servlet-name>SignIn</servlet-name>
+		<servlet-name>CreateUser</servlet-name>
 		<servlet-class>com.johannes.maps.SignInServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
-		<servlet-name>SignIn</servlet-name>
-		<url-pattern>/sign-in</url-pattern>
+		<servlet-name>CreateUser</servlet-name>
+		<url-pattern>/create-user</url-pattern>
 	</servlet-mapping>
 	
 	<welcome-file-list>

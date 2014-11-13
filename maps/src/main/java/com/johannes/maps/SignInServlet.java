@@ -11,6 +11,6 @@ public class SignInServlet extends HttpServlet{
 	
 	public void doGet(HttpServletRequest req, HttpServletResponse res) throws IOException{
 		res.setContentType("text/plain");
-		res.getWriter().println("Hello, World!");
+		res.getWriter().println("This is were you create a temporary username, so that you can interact with your contacts");
 	}
 }
