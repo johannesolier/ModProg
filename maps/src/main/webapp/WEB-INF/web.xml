@@ -12,6 +12,15 @@
 		<url-pattern>/create-user</url-pattern>
 	</servlet-mapping>
 	
+	<servlet>
+		<servlet-name>Sign in</servlet-name>
+		<servlet-class>com.johannes.maps.SignInServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Sign in</servlet-name>
+		<url-pattern>/sign-in</url-pattern>
+	</servlet-mapping>
+	
 	<welcome-file-list>
 		<welcome-file>MapsMain.jsp</welcome-file>
 	</welcome-file-list>

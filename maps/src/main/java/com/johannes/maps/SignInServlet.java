@@ -9,8 +9,8 @@ import javax.servlet.http.HttpServletResponse;
 @SuppressWarnings("serial")
 public class SignInServlet extends HttpServlet{
 	
-	public void doGet(HttpServletRequest req, HttpServletResponse res) throws IOException{
+	public void doPost(HttpServletRequest req, HttpServletResponse res) throws IOException{
 		res.setContentType("text/plain");
-		res.getWriter().println("This is were you create a temporary username, so that you can interact with your contacts");
+		res.getWriter().println(req.getParameter("inputEmail"));
 	}
 }
