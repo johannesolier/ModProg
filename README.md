@@ -1,6 +1,0 @@
-ModProg
-=======
-
-*Project:*
-
-**Meeting Map** 
