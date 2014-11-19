@@ -37,7 +37,7 @@
 					</form></li>
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
-				<li><a href="/create_meet_map.jsp">Create Meet-Map</a></li>
+				<li><a href="/create_meet_map.jsp">Create Meet-up Map</a></li>
 				<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><%=user.getNickname()%><b class="caret"></b></a>
 					<ul class="dropdown-menu">
 						<li><a href="<%=userService.createLogoutURL(request.getRequestURI())%>">Sign out</a></li>
