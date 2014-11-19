@@ -3,26 +3,8 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
 
-	<servlet>
-		<servlet-name>CreateUser</servlet-name>
-		<servlet-class>com.johannes.maps.SignInServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>CreateUser</servlet-name>
-		<url-pattern>/create-user</url-pattern>
-	</servlet-mapping>
-	
-	<servlet>
-		<servlet-name>Sign in</servlet-name>
-		<servlet-class>com.johannes.maps.SignInServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>Sign in</servlet-name>
-		<url-pattern>/sign-in</url-pattern>
-	</servlet-mapping>
-	
 	<welcome-file-list>
-		<welcome-file>MapsMain.jsp</welcome-file>
+		<welcome-file>meet-up_map.jsp</welcome-file>
 	</welcome-file-list>
 	
 </web-app>
