@@ -7,7 +7,7 @@
 		<meta charset="utf-8">
 		<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
 		<script type="text/javascript" src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
-		<script type="text/javascript" src="js/mapFunc.js"></script>
+		<script type="text/javascript" src="js/mapfunc.js"></script>
 		<script type="text/javascript" src="js/bootstrap.js"></script>
 	</head>
 	<body onload="init()">
