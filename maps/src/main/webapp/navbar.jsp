@@ -34,9 +34,8 @@
 					if (user == null) {
 				%>
 				<ul class="nav navbar-nav navbar-right">
-					<li><a
-						href="<%=userService.createLoginURL(request.getRequestURI())%>">Sign
-							in</a></li>
+					<li><a href="<%=userService.createLoginURL(request.getRequestURI())%>">Sign in</a>
+					</li>
 				</ul>
 				<%
 					} else if(user != null){
