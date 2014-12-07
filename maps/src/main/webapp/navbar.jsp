@@ -53,6 +53,7 @@
 					<%=user.getNickname()%>
 					<b class="caret"></b></a>
 						<ul class="dropdown-menu">
+							<li><a href="/profile.jsp">Profile</a><li>
 							<li><a href="<%=userService.createLogoutURL(request.getRequestURI())%>">Sign out</a></li>
 						</ul>
 					</li>
