@@ -47,6 +47,7 @@
 						</form>
 					</li>
 					<li><a href="/create_meet_map.jsp">Create Meet-up Map</a></li>
+					<li><a href="/viewInvites.jsp">View Invites</a></li>
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
 					<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">

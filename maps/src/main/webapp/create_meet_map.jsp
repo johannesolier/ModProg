@@ -6,8 +6,25 @@
 		<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
 		<script type="text/javascript">
 			var map;
-			var initialLocation = new google.maps.LatLng(34.415454, -119.845180);
 			var geocoder;
+
+			var initialLocation;
+
+			function getLocation(){
+				if(navigator.geolocation){
+					navigator.geolocation.getCurrentPosition(setPosition);
+				}
+				else{
+					alert("Geolocation not supported!");
+				}
+			}
+
+			function setPosition(position){
+				initialLocation = new google.maps.LatLng(position.coords.latitude,position.coords.longitude);
+				document.getElementById("olat").value=position.coords.latitude;
+				document.getElementById("olong").value=position.coords.longitude;
+				init();
+			}
 			
 			function init() {
 				geocoder = new google.maps.Geocoder();
@@ -34,6 +51,9 @@
 							position : results[0].geometry.location
 						});
 						document.getElementById("address").value=results[0].formatted_address;
+						document.getElementById("lat").value=location.lat();
+						document.getElementById("long").value=location.lng();
+						
 					} else {
 						alert('Geocode was not successful for the following reason: ' + status);
 					}
@@ -41,9 +61,9 @@
 			}
 		</script>
 	</head>
-	<body onload="init()">
+	<body onload="getLocation()">
 		<jsp:include page="navbar.jsp"></jsp:include>
-		<form class="form-horizontal" style="width: 50%" action="/addMap"
+		<form class="form-horizontal" style="width: 50%" action="/sendInvite"
 			method="post">
 			<fieldset>
 				<legend>Create Meet-up Map</legend>
@@ -60,6 +80,10 @@
 						<input type="text" name="user" class="form-control" placeholder="User"> 
 						<div id="locationmap" style="width: 50%; height: 300px; margin-left: auto; margin-right: auto; padding: 5px"></div>
 						<input id="address" type="text" name="address" class="form-control" placeholder="Address" readonly>
+						<input id="lat" type="hidden" name="lat" class="form-control">
+						<input id="long" type="hidden" name="long" class="form-control">
+						<input id="olat" type="hidden" name="olat" class="form-control">
+						<input id="olong" type="hidden" name="olong" class="form-control">						
 					</div>
 				</div>
 				<div class="form-group">
@@ -72,7 +96,7 @@
 				<div class="form-group">
 					<div class="col-lg-10 col-lg-offset-2">
 						<button class="btn btn-default">Cancel</button>
-						<button type="submit" class="btn btn-primary">Submit</button>
+						<button type="submit" class="btn btn-primary">Send Invite</button>
 					</div>
 				</div>
 			</fieldset>
