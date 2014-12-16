@@ -86,7 +86,6 @@
 		User user = userService.getCurrentUser();
 
 		if (user != null) {
-
 			Filter guest = new FilterPredicate("guest", FilterOperator.EQUAL, user.getNickname());
 			Filter owner = new FilterPredicate("owner", FilterOperator.EQUAL, user.getNickname());
 			DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
@@ -110,9 +109,6 @@
 				pageContext.setAttribute("otherLong", entity.getProperty("olong"));
 			}
 		}
-
-		//if (session.getAttribute("tracking").equals("guest"))
-		//response.sendRedirect("/updateLocation");
 	%>
 	<input id="otherLat" type="hidden" value="${fn:escapeXml(otherLat)}"
 		name="otherLat" class="form-control">
