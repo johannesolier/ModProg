@@ -39,11 +39,14 @@
 	}
 
 	function setPosition(position) {
-		initialLocation = new google.maps.LatLng(position.coords.latitude,position.coords.longitude);
+		initialLocation = new google.maps.LatLng(position.coords.latitude,
+				position.coords.longitude);
 		document.getElementById("lat").value = position.coords.latitude;
 		document.getElementById("long").value = position.coords.longitude;
 		init();
-		placeMarker(new google.maps.LatLng(document.getElementById("otherLat").value,document.getElementById("otherLong").value));
+		placeMarker(new google.maps.LatLng(
+				document.getElementById("otherLat").value, document
+						.getElementById("otherLong").value));
 	}
 
 	function init() {
@@ -72,7 +75,8 @@
 		});
 	}
 </script>
-<script type="text/javascript" src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+<script type="text/javascript"
+	src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
 <script type="text/javascript" src="js/bootstrap.js"></script>
 </head>
 <body onload="getLocation()">
@@ -80,34 +84,40 @@
 	<%
 		UserService userService = UserServiceFactory.getUserService();
 		User user = userService.getCurrentUser();
-		Filter guest = new FilterPredicate("guest", FilterOperator.EQUAL, user.getNickname());
-		Filter owner = new FilterPredicate("owner", FilterOperator.EQUAL, user.getNickname());
-		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-		Query query = new Query("Invites").setFilter(guest);
-		PreparedQuery pq = datastore.prepare(query);
-		Entity entity = pq.asSingleEntity();
-		if (entity == null) {
-			query = new Query("Invites").setFilter(owner);
-			pq = datastore.prepare(query);
-			entity = pq.asSingleEntity();
-			if (entity == null)
-				session.setAttribute("tracking", null);
-			else{
-				session.setAttribute("tracking", "owner");
-				pageContext.setAttribute("otherLat", entity.getProperty("glat"));
-				pageContext.setAttribute("otherLong", entity.getProperty("glong"));	
+
+		if (user != null) {
+
+			Filter guest = new FilterPredicate("guest", FilterOperator.EQUAL, user.getNickname());
+			Filter owner = new FilterPredicate("owner", FilterOperator.EQUAL, user.getNickname());
+			DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+			Query query = new Query("Invites").setFilter(guest);
+			PreparedQuery pq = datastore.prepare(query);
+			Entity entity = pq.asSingleEntity();
+			if (entity == null) {
+				query = new Query("Invites").setFilter(owner);
+				pq = datastore.prepare(query);
+				entity = pq.asSingleEntity();
+				if (entity == null)
+					session.setAttribute("tracking", null);
+				else {
+					session.setAttribute("tracking", "owner");
+					pageContext.setAttribute("otherLat", entity.getProperty("glat"));
+					pageContext.setAttribute("otherLong", entity.getProperty("glong"));
+				}
+			} else {
+				session.setAttribute("tracking", "guest");
+				pageContext.setAttribute("otherLat", entity.getProperty("olat"));
+				pageContext.setAttribute("otherLong", entity.getProperty("olong"));
 			}
-		} else{
-			session.setAttribute("tracking", "guest");
-			pageContext.setAttribute("otherLat", entity.getProperty("olat"));
-			pageContext.setAttribute("otherLong", entity.getProperty("olong"));
 		}
-		
+
 		//if (session.getAttribute("tracking").equals("guest"))
-			//response.sendRedirect("/updateLocation");
+		//response.sendRedirect("/updateLocation");
 	%>
-	<input id="otherLat" type="hidden" value="${fn:escapeXml(otherLat)}" name="otherLat" class="form-control">
-	<input id="otherLong" type="hidden" value="${fn:escapeXml(otherLong)}" name="otherLong" class="form-control">
+	<input id="otherLat" type="hidden" value="${fn:escapeXml(otherLat)}"
+		name="otherLat" class="form-control">
+	<input id="otherLong" type="hidden" value="${fn:escapeXml(otherLong)}"
+		name="otherLong" class="form-control">
 	<div id="map_canvas" style="width: 100%; height: 850px"></div>
 	<form action="/updateLocation" method="post">
 		<input id="lat" type="hidden" name="lat" class="form-control">
