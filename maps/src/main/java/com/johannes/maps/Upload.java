@@ -2,6 +2,7 @@ package com.johannes.maps;
 
 import java.io.IOException;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletException;
@@ -24,23 +25,23 @@ public class Upload extends HttpServlet {
 	
 	private BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
 	
-	@SuppressWarnings("deprecation")
-	public void doPost(HttpServletRequest req, HttpServletResponse res) 
-			throws ServletException, IOException{
-		Map<String, BlobKey> blobs = blobstoreService.getUploadedBlobs(req);
-		BlobKey blobKey = blobs.get("Image");
+	public void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException{
+		Map<String, List<BlobKey>> blobs = blobstoreService.getUploads(req);
+		List<BlobKey> blobKey = blobs.get("Image");
 		Date date = new Date();
 		
 		UserService userService = UserServiceFactory.getUserService();
 		User user = userService.getCurrentUser();
 		
-		if (blobKey == null) {
+		System.out.println(req.getParameter("Image") + " IMAGE");
+		if (blobKey == null || blobKey.isEmpty() ) {
+			System.out.println("blobKey == null");
 			res.sendRedirect("/error.jsp");
 		}
 		else{
 			Entity entity = new Entity("Images");
 			entity.setProperty("User", user.getUserId());
-			entity.setProperty("Image", blobKey.getKeyString());
+			entity.setProperty("Image", blobKey.get(0).getKeyString());
 			entity.setProperty("Date", date.getTime());
 			
 			DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();

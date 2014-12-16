@@ -87,10 +87,9 @@
 					</div>
 				</div>
 				<div class="form-group">
-					<label for="textArea" name="description"
-						class="col-lg-2 control-label">Description</label>
+					<label for="textArea" class="col-lg-2 control-label">Description</label>
 					<div class="col-lg-10">
-						<textarea class="form-control" rows="3" id="textArea"></textarea>
+						<textarea name="description" class="form-control" rows="3" id="textArea"></textarea>
 					</div>
 				</div>
 				<div class="form-group">
