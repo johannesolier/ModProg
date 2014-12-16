@@ -30,10 +30,8 @@
 		style="width: 50%; margin-left: auto; margin-right: auto; text-align: center;">
 		<h1>Profile picture</h1>
 		<p>Upload your own personal profile picture</p>
-		<form action="<%=blobstoreService.createUploadUrl("/upload")%>"
-			method="post" enctype="multipart/form-data">
-			<input type="file" name="Image"
-				style="color: #ffffff; background-color: #f39c12; border-color: #f39c12;">
+		<form action="<%=blobstoreService.createUploadUrl("/upload")%>" method="post" enctype="multipart/form-data">
+			<input type="file" name="Image" style="color: #ffffff; background-color: #f39c12; border-color: #f39c12;">
 			<button type="submit" class="btn btn-primary">Submit</button>
 		</form>
 		<%
