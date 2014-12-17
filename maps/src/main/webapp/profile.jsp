@@ -24,6 +24,7 @@
 
 <html>
 <head>
+<title>Meet-up: Profile</title>
 <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
 <script type="text/javascript"
 	src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
@@ -37,11 +38,14 @@
 		<p>Upload your own personal profile picture</p>
 		<form action="<%=blobstoreService.createUploadUrl("/upload")%>"
 			method="post" enctype="multipart/form-data">
-			<input type="file" name="Image"
-				style="color: #ffffff; background-color: #f39c12; border-color: #f39c12;">
+			<input type="file" name="Image" style="color: #ffffff; background-color: #f39c12; border-color: #f39c12;" required>
 			<button type="submit" class="btn btn-primary">Submit</button>
 		</form>
 		<%
+			/**
+			*	Searches the datastore for images uploaded by the user.
+			* 	Selects the most recent for the profile pic.
+			*/
 			String filename = "";
 			UserService userService = UserServiceFactory.getUserService();
 			User user = userService.getCurrentUser();

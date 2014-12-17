@@ -25,6 +25,18 @@ public class Upload extends HttpServlet {
 	
 	private BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
 	
+	/**
+	 * Method doPost
+	 * 
+	 * Retrieves the file uploaded by the user. Puts it in the datastore. Add the date
+	 * as a property to easily sort and get most recently uploaded file.
+	 * 
+	 * The redirect to error.jsp is now useless because of the 'required' property 
+	 * of the file <input>-field.
+	 * 
+	 * Kept because I want to make it work right.
+	 */
+	
 	public void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException{
 		Map<String, List<BlobKey>> blobs = blobstoreService.getUploads(req);
 		List<BlobKey> blobKey = blobs.get("Image");

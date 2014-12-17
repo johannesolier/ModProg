@@ -19,25 +19,33 @@ import com.google.appengine.api.datastore.Query.FilterPredicate;
 import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
-import com.sun.org.apache.bcel.internal.generic.LNEG;
 
 @SuppressWarnings("serial")
-public class UpdateLocationServlet extends HttpServlet{
+public class UpdateLocationServlet extends HttpServlet {
+
+	/**
+	 * Method doPost
+	 * 
+	 * Retrieves information about an invitation and updates your location 
+	 * based on whether you are the owner of the invite or the guest.
+	 */
 	
-	public void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException{
-		
-		String title = req.getParameter("title");
+	public void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+
 		String latitude = req.getParameter("lat");
 		String longitude = req.getParameter("long");
-		
+
 		UserService userService = UserServiceFactory.getUserService();
 		User user = userService.getCurrentUser();
-		
+
 		HttpSession session = req.getSession();
 
-		if(session.getAttribute("tracking").equals("guest")){
-			Filter guest = new FilterPredicate("guest",FilterOperator.EQUAL,user.getNickname());
-			DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+		Filter guest = new FilterPredicate("guest", FilterOperator.EQUAL, user.getNickname());
+		Filter owner = new FilterPredicate("owner", FilterOperator.EQUAL, user.getNickname());
+
+		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+
+		if (session.getAttribute("tracking").equals("guest")) {
 			Query query = new Query("Invites").setFilter(guest);
 			PreparedQuery pq = datastore.prepare(query);
 			Entity entity = pq.asSingleEntity();
@@ -46,10 +54,8 @@ public class UpdateLocationServlet extends HttpServlet{
 			entity.setProperty("glat", latitude);
 			entity.setProperty("glong", longitude);
 			datastore.put(entity);
-		}
-		else if(session.getAttribute("tracking").equals("owner")){
-			Filter owner = new FilterPredicate("owner",FilterOperator.EQUAL,user.getNickname());
-			DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+
+		} else if (session.getAttribute("tracking").equals("owner")) {
 			Query query = new Query("Invites").setFilter(owner);
 			PreparedQuery pq = datastore.prepare(query);
 			Entity entity = pq.asSingleEntity();
@@ -57,8 +63,9 @@ public class UpdateLocationServlet extends HttpServlet{
 			entity.setProperty("olat", latitude);
 			entity.setProperty("olong", longitude);
 			datastore.put(entity);
+
 		}
-		
+
 		res.sendRedirect("/");
 	}
 }

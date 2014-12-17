@@ -1,4 +1,8 @@
+<%@page import="java.util.logging.Level"%>
 <%@ page contentType="text/html;charset=UTF-8" language="java"%>
+<%@page import="com.google.appengine.api.memcache.ErrorHandlers"%>
+<%@page import="com.google.appengine.api.memcache.MemcacheServiceFactory"%>
+<%@page import="com.google.appengine.api.memcache.MemcacheService"%>
 <%@page import="java.util.List"%>
 <%@page import="com.google.appengine.api.datastore.PreparedQuery"%>
 <%@page import="com.google.appengine.api.datastore.Query.FilterOperator"%>
@@ -40,8 +44,8 @@
 		document.getElementById("long").value = position.coords.longitude;
 		init();
 		placeMarker(new google.maps.LatLng(
-				document.getElementById("otherLat").value, document
-						.getElementById("otherLong").value));
+				document.getElementById("otherLat").value, 
+				document.getElementById("otherLong").value));
 	}
 
 	function init() {
@@ -70,41 +74,49 @@
 		});
 	}
 </script>
-<script type="text/javascript"
-	src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
 <script type="text/javascript" src="js/bootstrap.js"></script>
 </head>
 <body onload="getLocation()">
 	<jsp:include page="/navbar.jsp"></jsp:include>
 	<%
-		UserService userService = UserServiceFactory.getUserService();
-		User user = userService.getCurrentUser();
-
-		if (user != null) {
-			Filter guest = new FilterPredicate("guest", FilterOperator.EQUAL, user.getNickname());
-			Filter owner = new FilterPredicate("owner", FilterOperator.EQUAL, user.getNickname());
-			DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-			Query query = new Query("Invites").setFilter(guest);
-			PreparedQuery pq = datastore.prepare(query);
-			Entity entity = pq.asSingleEntity();
-			if (entity == null) {
-				query = new Query("Invites").setFilter(owner);
-				pq = datastore.prepare(query);
-				entity = pq.asSingleEntity();
-				if (entity == null)
-					session.setAttribute("tracking", null);
-				else {
-					session.setAttribute("tracking", "owner");
-					pageContext.setAttribute("otherLat", entity.getProperty("glat"));
-					pageContext.setAttribute("otherLong", entity.getProperty("glong"));
-				}
-			} else {
-				session.setAttribute("tracking", "guest");
-				pageContext.setAttribute("otherLat", entity.getProperty("olat"));
-				pageContext.setAttribute("otherLong", entity.getProperty("olong"));
-			}
-		}
-	%>
+ 		UserService userService = UserServiceFactory.getUserService();
+ 		User user = userService.getCurrentUser();
+ 		
+ 		MemcacheService syncCache = MemcacheServiceFactory.getMemcacheService();
+	 	syncCache.setErrorHandler(ErrorHandlers.getConsistentLogAndContinue(Level.INFO));
+	 	
+	 	//Entity invite = syncCache.get();
+	 	
+	 	/**
+	 	* Uses Query to determine wether the user is the guest or owner.
+	 	* Retrieves the location of the other user.
+	 	*/
+ 		if (user != null) {
+ 			Filter guest = new FilterPredicate("guest", FilterOperator.EQUAL, user.getNickname());
+ 			Filter owner = new FilterPredicate("owner", FilterOperator.EQUAL, user.getNickname());
+ 			DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+ 			Query query = new Query("Invites").setFilter(guest);
+ 			PreparedQuery pq = datastore.prepare(query);
+ 			List<Entity> entity = pq.asList(FetchOptions.Builder.withLimit(1));
+ 			if (entity.isEmpty()) {
+ 				query = new Query("Invites").setFilter(owner);
+ 				pq = datastore.prepare(query);
+ 				entity = pq.asList(FetchOptions.Builder.withLimit(1));
+ 				if (entity.isEmpty())
+ 					session.setAttribute("tracking", null);
+ 				else {
+ 					session.setAttribute("tracking", "owner");
+ 					pageContext.setAttribute("otherLat", entity.get(0).getProperty("glat"));
+ 					pageContext.setAttribute("otherLong", entity.get(0).getProperty("glong"));
+ 				}
+ 			} else {
+ 				session.setAttribute("tracking", "guest");
+ 				pageContext.setAttribute("otherLat", entity.get(0).getProperty("olat"));
+ 				pageContext.setAttribute("otherLong", entity.get(0).getProperty("olong"));
+ 			}
+ 		}
+ 	%>
 	<input id="otherLat" type="hidden" value="${fn:escapeXml(otherLat)}"
 		name="otherLat" class="form-control">
 	<input id="otherLong" type="hidden" value="${fn:escapeXml(otherLong)}"
@@ -113,7 +125,7 @@
 	<form action="/updateLocation" method="post">
 		<input id="lat" type="hidden" name="lat" class="form-control">
 		<input id="long" type="hidden" name="long" class="form-control">
-		<button type="submit">OPPDATER</button>
+		<button type="submit">UPDATE</button>
 	</form>
 </body>
 </html>

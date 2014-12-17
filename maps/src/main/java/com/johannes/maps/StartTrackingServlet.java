@@ -22,6 +22,13 @@ import com.google.appengine.api.users.UserServiceFactory;
 @SuppressWarnings("serial")
 public class StartTrackingServlet extends HttpServlet{
 	
+	/**
+	 * Method doPost
+	 * 
+	 * Retrieves information about an invitation and updates your location.
+	 * Creates a session that tells the system the tracking has started.
+	 */
+	
 	public void doPost(HttpServletRequest req, HttpServletResponse res) throws IOException{
 		String title = req.getParameter("title");
 		String glatitude = req.getParameter("glat");
@@ -44,6 +51,6 @@ public class StartTrackingServlet extends HttpServlet{
 		HttpSession session = req.getSession(true);
 		session.setAttribute("started", true);
 		
-		res.sendRedirect("/viewInvites.jsp");
+		res.sendRedirect("/");
 	}
 }

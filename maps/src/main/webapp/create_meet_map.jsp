@@ -75,7 +75,7 @@
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="col-lg-2 control-label">Users</label>
+					<label class="col-lg-2 control-label">User</label>
 					<div class="col-lg-10">
 						<input type="text" name="user" class="form-control" placeholder="User"> 
 						<div id="locationmap" style="width: 50%; height: 300px; margin-left: auto; margin-right: auto; padding: 5px"></div>

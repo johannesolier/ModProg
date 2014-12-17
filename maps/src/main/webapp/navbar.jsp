@@ -29,6 +29,9 @@
 			</div>
 			<div class="navbar-collapse collapse navbar-responsive-collapse">
 				<%
+				/**
+				*	Checks if the user has logged in. If not, a login button is added.
+				*/
 					UserService userService = UserServiceFactory.getUserService();
 					User user = userService.getCurrentUser();
 					if (user == null) {
@@ -41,13 +44,15 @@
 					} else if(user != null){
 				%>
 				<ul class="nav navbar-nav navbar-left">
-					<li><form class="navbar-form navbar-left">
-							<input type="text" class="form-control col-lg-8"
+					<li><form action="/addFriend" class="navbar-form navbar-left" method="post">
+							<input type="text" name="friend" class="form-control col-lg-8"
 								placeholder="Search User">
 						</form>
 					</li>
 					<li><a href="/create_meet_map.jsp">Create Meet-up Map</a></li>
-					<li><a href="/viewInvites.jsp">View Invites</a></li>
+					<li><a href="/viewInvites.jsp">Invites</a></li>
+					<li><a href="/viewFriends.jsp">Friends</a></li>
+					
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
 					<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
@@ -55,6 +60,15 @@
 					<b class="caret"></b></a>
 						<ul class="dropdown-menu">
 							<li><a href="/profile.jsp">Profile</a><li>
+							<%
+							/**
+							*	If the user is not logged in to twitter, adds a sign in button.
+							*	If the user is logged, adds a logout button.
+							*/
+							if(session.getAttribute("twitter") == null){ %>
+							<li><a href="/signin">Twitter</a></li>
+							<%}else{ %>
+							<li><a href="/logout">Logout Twitter</a></li><%} %>
 							<li><a href="<%=userService.createLogoutURL(request.getRequestURI())%>">Sign out</a></li>
 						</ul>
 					</li>

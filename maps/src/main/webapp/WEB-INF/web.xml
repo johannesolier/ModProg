@@ -47,6 +47,51 @@
 		<servlet-name>UpdateLocation</servlet-name>
 		<url-pattern>/updateLocation</url-pattern>
 	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>AddFriend</servlet-name>
+		<servlet-class>com.johannes.maps.AddFriendServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>AddFriend</servlet-name>	
+		<url-pattern>/addFriend</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>SendTweet</servlet-name>
+		<servlet-class>com.johannes.maps.SendTweetServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>SendTweet</servlet-name>
+		<url-pattern>/sendTweet</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>LoginTwitter</servlet-name>
+		<servlet-class>twitter.SignInServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>LoginTwitter</servlet-name>	
+		<url-pattern>/signin</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>Logout</servlet-name>
+		<servlet-class>twitter.LogoutServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Logout</servlet-name>
+		<url-pattern>/logout</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>Callback</servlet-name>
+		<servlet-class>twitter.CallbackServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Callback</servlet-name>	
+		<url-pattern>/callback</url-pattern>
+	</servlet-mapping>
 
 	<welcome-file-list>
 		<welcome-file>index.jsp</welcome-file>
